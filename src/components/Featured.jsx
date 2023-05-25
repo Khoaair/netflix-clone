@@ -2,33 +2,39 @@
 import { InfoOutlined, PlayArrow, VolumeUp } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { filmOptions } from '../utils/options';
-import axios from 'axios';
-import { dataUrl } from '../utils/constant';
+import { request } from '../utils/request';
+import customFetch from '../utils/axios';
+import { imgUrl } from '../utils/constant';
 
 // eslint-disable-next-line react/prop-types
 const Featured = ({ type }) => {
+  const [movie, setMovie] = useState([]);
+
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    const getRandomMovie = async () => {
+    const fetchMoies = async () => {
       try {
-        const res = await axios.get(
-          `${dataUrl}movies/random?type=${type ? type : 'movies'}`,
-          {
-            headers: {
-              token:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWY0ZTAzY2E0NGIwZTI4MDEwYjRiZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY4NDMxMDM4NSwiZXhwIjoxNjg0NzQyMzg1fQ.qpVNJEs4DCBzfWoRvEDAWa6viL4PR-v-nJksbxQ-zBs',
-            },
-          }
+        const res = await customFetch.get(`${request.fetchTreding}`, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
+          },
+        });
+        setMovie(
+          res.data.results[
+            Math.floor(Math.random() * res.data.results.length - 1)
+          ]
         );
-        setContent(res.data[0]);
       } catch (error) {
         console.log(error);
       }
     };
-    getRandomMovie();
-  }, [type]);
-  console.log(content);
+    fetchMoies();
+  }, []);
+
+  console.log(movie);
+
   return (
     <div className='featured'>
       {type && (
@@ -47,13 +53,23 @@ const Featured = ({ type }) => {
           </select>
         </div>
       )}
-      <img src={content.img} alt='featured image' />
+      <img src={`${imgUrl}${movie.backdrop_path}`} alt='featured image' />
       <div className='info'>
-        <img
-          src='http://occ-0-58-300.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABS6y6LFtVFyveiCaehIQtC-eX0iRwVlUlWYXEIjPqv1TTG2v7ExkGoH05aVVvDGBQilebZsnTbx891IwIzIoDv65AQQMsevtaphs-cTWC4CbUyCM6--YK06ndiJiaUGZ10AY5GpIvjApRN3wYLZF3sl7pmYpZKsB_4m8b53BI2VujEYXwSYD1Q.png?r=cce'
-          alt=''
-        />
-        <span className='desc'>{content.desc}</span>
+        <p className='title'>
+          {movie?.name || movie?.title || movie?.original_name}
+        </p>
+
+        <span className='desc'>
+          {movie && movie.overview && movie.overview.slice(0, 150)}
+          <span>
+            {' '}
+            <span>
+              {' '}
+              <button className='show-more text-white'>show more</button>
+            </span>
+          </span>{' '}
+        </span>
+
         <div className='buttons'>
           <button className='play'>
             <PlayArrow sx={{ fontSize: '2.125rem' }} />

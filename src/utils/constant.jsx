@@ -1,1 +1,1 @@
-export const dataUrl = 'http://localhost:8800/api/';
+export const imgUrl = 'https://image.tmdb.org/t/p/original/';

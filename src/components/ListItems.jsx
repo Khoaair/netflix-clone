@@ -8,7 +8,6 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { dataUrl } from '../utils/constant';
 import { Link } from 'react-router-dom';
 
 const ListItems = ({ item, index }) => {
@@ -18,7 +17,7 @@ const ListItems = ({ item, index }) => {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await axios.get(`${dataUrl}movies/` + item, {
+        const res = await axios.get(`movies/` + item, {
           headers: {
             token:
               'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWY0ZTAzY2E0NGIwZTI4MDEwYjRiZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY4NDMxMDM4NSwiZXhwIjoxNjg0NzQyMzg1fQ.qpVNJEs4DCBzfWoRvEDAWa6viL4PR-v-nJksbxQ-zBs',

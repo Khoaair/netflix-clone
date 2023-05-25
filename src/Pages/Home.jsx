@@ -5,7 +5,6 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Featured from '../components/Featured';
 import List from '../components/List';
-import { dataUrl } from '../utils/constant';
 
 const Home = ({ type }) => {
   const [lists, setLists] = useState([]);
@@ -15,7 +14,7 @@ const Home = ({ type }) => {
     const getRandomLists = async () => {
       try {
         const res = await axios.get(
-          `${dataUrl}lists${type ? '?type=' + type : ''}${
+          `lists${type ? '?type=' + type : ''}${
             gerne ? '&gerne=' + gerne : ''
           }`,
           {

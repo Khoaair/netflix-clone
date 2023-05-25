@@ -1,5 +1,5 @@
 .featured {
-  @apply h-[90vh] relative text-white;
+  @apply h-[100vh] relative text-white;
 
   & > .category {
     @apply absolute top-20 left-[3.75rem] first-line:font-bold text-white flex items-center gap-12;
@@ -24,7 +24,10 @@
       @apply w-[25rem];
     }
     & > .desc {
-      @apply my-7 text-[1.375rem];
+      @apply my-7 text-[1.375rem] tracking-wider;
+    }
+    & > .title {
+      @apply text-8xl text-white;
     }
   }
 }
@@ -39,4 +42,7 @@
   & > .more {
     @apply bg-[#6d6d6e] text-white hover:opacity-70;
   }
+}
+.show-more {
+  @apply underline;
 }
