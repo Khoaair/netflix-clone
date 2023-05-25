@@ -24,7 +24,7 @@
       @apply w-[25rem];
     }
     & > .desc {
-      @apply my-7 text-[1.375rem] tracking-wider;
+      @apply my-7 text-[1.375rem] tracking-wider leading-snug text-gray-300;
     }
     & > .title {
       @apply text-8xl text-white;

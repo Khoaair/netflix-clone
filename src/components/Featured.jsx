@@ -1,16 +1,21 @@
 /* eslint-disable no-unused-vars */
-import { InfoOutlined, PlayArrow, VolumeUp } from '@mui/icons-material';
+import { InfoOutlined, PlayArrow } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { filmOptions } from '../utils/options';
 import { request } from '../utils/request';
 import customFetch from '../utils/axios';
 import { imgUrl } from '../utils/constant';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 const Featured = ({ type }) => {
   const [movie, setMovie] = useState([]);
 
-  const [content, setContent] = useState([]);
+  const [isReadMore, setIsReadMore] = useState(false);
+
+  const handleOnClick = () => {
+    setIsReadMore(!isReadMore);
+  };
 
   useEffect(() => {
     const fetchMoies = async () => {
@@ -32,11 +37,16 @@ const Featured = ({ type }) => {
     };
     fetchMoies();
   }, []);
-
-  console.log(movie);
-
+  console.log(isReadMore);
   return (
-    <div className='featured'>
+    <div
+      className='featured'
+      style={{
+        backgroundImage: `url(${imgUrl}${movie.backdrop_path})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+      }}
+    >
       {type && (
         <div className='category'>
           <span>{type === 'movies' ? 'Movies' : 'Series'}</span>
@@ -53,19 +63,26 @@ const Featured = ({ type }) => {
           </select>
         </div>
       )}
-      <img src={`${imgUrl}${movie.backdrop_path}`} alt='featured image' />
+      {/* <img
+        src={`${imgUrl}${movie.backdrop_path}`}
+        alt='featured image relative'
+      /> */}
       <div className='info'>
         <p className='title'>
           {movie?.name || movie?.title || movie?.original_name}
         </p>
 
         <span className='desc'>
-          {movie && movie.overview && movie.overview.slice(0, 150)}
+          {isReadMore
+            ? movie && movie.overview && movie.overview
+            : movie && movie.overview && movie.overview.substring(0, 150)}
           <span>
             {' '}
             <span>
               {' '}
-              <button className='show-more text-white'>show more</button>
+              <button className='show-more text-white' onClick={handleOnClick}>
+                {!isReadMore ? 'show more' : 'show less'}
+              </button>
             </span>
           </span>{' '}
         </span>

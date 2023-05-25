@@ -36,9 +36,9 @@ const List = ({ list }) => {
           style={{ display: !isMoved && 'none' }}
         />
         <div className='container' ref={listRef}>
-          {list.content.map((item, index) => {
+          {/* {list.content.map((item, index) => {
             return <ListItems key={index} index={index} item={item} />;
-          })}
+          })} */}
         </div>
         <ArrowForwardIosOutlined
           className='sliderArrow right'
