@@ -9,27 +9,28 @@ import {
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { imgUrl } from '../utils/constant';
 
 const ListItems = ({ item, index }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [movie, setMovie] = useState({});
 
-  useEffect(() => {
-    const getMovie = async () => {
-      try {
-        const res = await axios.get(`movies/` + item, {
-          headers: {
-            token:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWY0ZTAzY2E0NGIwZTI4MDEwYjRiZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY4NDMxMDM4NSwiZXhwIjoxNjg0NzQyMzg1fQ.qpVNJEs4DCBzfWoRvEDAWa6viL4PR-v-nJksbxQ-zBs',
-          },
-        });
-        setMovie(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getMovie();
-  }, [item]);
+  // useEffect(() => {
+  //   const getMovie = async () => {
+  //     try {
+  //       const res = await axios.get(`movies/` + item, {
+  //         headers: {
+  //           token:
+  //             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWY0ZTAzY2E0NGIwZTI4MDEwYjRiZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY4NDMxMDM4NSwiZXhwIjoxNjg0NzQyMzg1fQ.qpVNJEs4DCBzfWoRvEDAWa6viL4PR-v-nJksbxQ-zBs',
+  //         },
+  //       });
+  //       setMovie(res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getMovie();
+  // }, [item]);
 
   return (
     <Link to='/watch' state={{ movie: movie }}>
@@ -39,7 +40,7 @@ const ListItems = ({ item, index }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img src={movie.imgSm} alt='' />
+        <img src={`${imgUrl}${item.backdrop_path}`} alt='' />
         {isHovered && (
           <>
             <video src={movie.trailer} autoPlay={true} loop />
@@ -52,7 +53,7 @@ const ListItems = ({ item, index }) => {
               </div>
               <div className='itemInfoTop'>
                 <span>{movie.duration}</span>
-                <span className='limit'>{movie.limit}+</span>
+                <span className='limit'>{item.title}+</span>
                 <span>{movie.year}</span>
               </div>
               <div className='desc'>{movie.desc}</div>

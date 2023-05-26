@@ -4,13 +4,34 @@ import {
   ArrowBackIosNewOutlined,
   ArrowForwardIosOutlined,
 } from '@mui/icons-material';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ListItems from '../components/ListItems';
+import customFetch from '../utils/axios';
 
 const List = ({ list }) => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [isMoved, setIsMoved] = useState(false);
+  const [listMovies, setListMovies] = useState([]);
   const listRef = useRef();
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const res = await customFetch.get(`${list.fetchUrl}`, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
+          },
+        });
+        setListMovies(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMovies();
+  }, [list.fetchUrl]);
+
+  console.log(listMovies);
 
   const handleClick = direction => {
     setIsMoved(true);
@@ -39,6 +60,11 @@ const List = ({ list }) => {
           {/* {list.content.map((item, index) => {
             return <ListItems key={index} index={index} item={item} />;
           })} */}
+          {listMovies.results
+            ? listMovies.results.map((item, index) => {
+                return <ListItems key={index} index={index} item={item} />;
+              })
+            : ''}
         </div>
         <ArrowForwardIosOutlined
           className='sliderArrow right'

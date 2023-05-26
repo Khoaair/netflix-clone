@@ -8,14 +8,12 @@ import { listsMovies } from '../utils/constant';
 
 const Home = ({ type }) => {
   return (
-    <div className='bg-main relative'>
+    <div className='bg-main overflow-hidden relative'>
       <Navbar />
       <Featured type={type} />
-      <div className='absolute top-[85vh]'>
-        {listsMovies.map(list => {
-          return <List key={list.id} list={list} />;
-        })}
-      </div>
+      {listsMovies.map(list => {
+        return <List key={list.id} list={list} />;
+      })}
     </div>
   );
 };
